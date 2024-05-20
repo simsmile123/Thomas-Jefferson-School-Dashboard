@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Signup = () => {
+export const Navbar = () => {
   return (
     <div>
       

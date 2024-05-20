@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Signup = () => {
+export const Footer = () => {
   return (
     <div>
       
