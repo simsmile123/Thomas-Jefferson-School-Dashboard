@@ -11,14 +11,15 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import HomeIcon from '@mui/icons-material/Home';
 import EventIcon from '@mui/icons-material/Event';
+import { Link } from 'react-router-dom';
 export const SideBar = ({open, setOpen, toggleDrawer}) => {
 
 
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+    <Box sx={{ width: 250 }} role="presentation">
       <List>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton component={Link} to="/">
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
@@ -27,7 +28,7 @@ export const SideBar = ({open, setOpen, toggleDrawer}) => {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton  component={Link} to="/dashboard">
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>
@@ -36,7 +37,7 @@ export const SideBar = ({open, setOpen, toggleDrawer}) => {
           </ListItem>
           
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton component={Link} to="/calendar">
               <ListItemIcon>
                 <EventIcon />
               </ListItemIcon>
@@ -45,7 +46,7 @@ export const SideBar = ({open, setOpen, toggleDrawer}) => {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton component={Link} to="/directory">
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
@@ -53,19 +54,6 @@ export const SideBar = ({open, setOpen, toggleDrawer}) => {
             </ListItemButton>
           </ListItem>
       </List>
-      {/* <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List> */}
     </Box>
   );
 
