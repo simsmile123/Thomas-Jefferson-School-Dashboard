@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 
 import { Base } from "./components/Base.jsx";
-import { Calandar } from "./routes/Calandar.jsx";
+import { Calendar } from "./routes/Calendar.jsx";
 import { Dashboard } from "./routes/Dashboard.jsx";
 import { Directory } from "./routes/Directory.jsx";
 import { Home } from "./routes/Home.jsx";
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/dashboard", element: <Dashboard /> },
-      { path: "/calandar", element: <Calandar /> },
+      { path: "/calendar", element: <Calendar /> },
       { path: "/directory", element: <Directory /> },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> }
