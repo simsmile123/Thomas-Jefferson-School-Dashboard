@@ -9,6 +9,7 @@ import { Directory } from "./routes/Directory.jsx";
 import { Home } from "./routes/Home.jsx";
 import { Login } from "./routes/Login.jsx";
 import { Signup } from "./routes/Signup.jsx";
+import { Class } from "./routes/Class.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/dashboard", element: <Dashboard /> },
+      { path: "/dashboard/:className", element: <Class />},
       { path: "/calendar", element: <Calendar /> },
       { path: "/directory", element: <Directory /> },
       { path: "/login", element: <Login /> },
