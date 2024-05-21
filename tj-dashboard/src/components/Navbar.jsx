@@ -30,7 +30,7 @@ export const Navbar = () => {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                News
+                Thomas Jefferson Elementary
               </Typography>
               <Button color="inherit">Login</Button>
             </Toolbar>
