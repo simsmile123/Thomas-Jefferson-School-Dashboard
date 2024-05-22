@@ -19,6 +19,7 @@ const SignUpForm = () => {
     }
     try {
       await signUp(email, password, username);
+      alert('Sign up successfully')
       navigate('/');
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
