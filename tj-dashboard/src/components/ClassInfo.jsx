@@ -1,6 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import * as dbc from "../../database-controller";
+
 
 export const ClassInfo = ({ }) => {
   const [classInfo, setClassInfo] = useState({});
@@ -22,10 +23,9 @@ export const ClassInfo = ({ }) => {
       for (const studentID of Object.keys(classInfoData.Students)) {
         const student = await dbc.getStudent(studentID);
         studentData.push({
-          first_name: student.first_name,
-          last_name: student.last_name,
           grade: classInfoData.Students[studentID],
           id: studentID,
+          ...student,
         });
       }
 
@@ -69,5 +69,6 @@ export const ClassInfo = ({ }) => {
         </Typography>
       ))}
     </Box>
+
   );
 };
