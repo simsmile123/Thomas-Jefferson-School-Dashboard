@@ -110,6 +110,16 @@ export const ClassInfo = ( {classID} ) => {
     }
   };
 
+  const handleRemoveStudent = async (student) => {
+    try {
+      await dbc.removeStudentFromClass(classID, student.id);
+      setDialogOpenAdd(false);
+
+    } catch (error) {
+      console.error("Error adding student:", error);
+    }
+  };
+
   useEffect(() => {
     setAllStudentList(allStudentList.filter(
       (student1) => !students.some((student2) => student2.id === student1.id)
@@ -233,7 +243,7 @@ export const ClassInfo = ( {classID} ) => {
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleAddStudent(student)}
+                        onClick={() => handleRemoveStudent(student)}
                       >
                         Remove
                       </Button>

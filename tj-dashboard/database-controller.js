@@ -6,6 +6,7 @@ import {
   getDoc,
   doc,
   updateDoc,
+  FieldValue,
 } from "firebase/firestore";
 
 export const getTeachersList = async () => {
@@ -164,11 +165,19 @@ export const addStudentToClass = async (classID, studentID) => {
   }
 }
 
-// export const removeStudentFromClass = async (classID, studentID) => {
-//   try {
-//     const classDocRef = doc(db, "class", classID);
-//     await updateDoc(classDocRef, delete );
-//   } catch (error) {
-//     console.error("Error adding student:", error);
-//   }
-// }
+export const removeStudentFromClass = async (classID, studentID) => {
+  try {
+    const classDocRef = doc(db, "class", classID);
+    const classDocSnap = await getDoc(classDocRef);
+    const classData = classDocSnap.data();
+
+    const studentData = classDocSnap.data().Students;
+    delete studentData[studentID]
+
+    await updateDoc(classDocRef, {...classData, Students: studentData});
+
+    console.log(`Student with ID ${studentID} has been removed from class ${classID}`);
+  } catch (error) {
+    console.error("Error removing student:", error);
+  }
+};
