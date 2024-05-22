@@ -47,6 +47,7 @@ export const getClassesList = async () => {
       teachers: doc.data().Teachers,
       name: doc.data().name,
       subject: doc.data().subject,
+      grade: doc.data().grade,
       grade: doc.data().grade
     }));
     return data;
