@@ -5,7 +5,7 @@ import "../routes/dashboard.css"
 
 import React, { useEffect, useState } from 'react'
 
-const ClassCard = ({ name, teacherID, subject }) => {
+const ClassCard = ({ classID, name, teacherID, subject, setSelectedID }) => {
     const [teacherName, setTeacherName] = useState("");
 
     useEffect(() => {
@@ -27,10 +27,12 @@ const ClassCard = ({ name, teacherID, subject }) => {
 
     return (
         <>
-            <div className="class-card" style={{ backgroundColor: subject_color[subject]}}>
-                <h2 className="class-name">{name}</h2>
-                <p className="teacher-name">{teacherName}</p>
-            </div>   
+            <button className="card-button-wrapper" onClick={() => setSelectedID(classID)}>
+                <div className="class-card" style={{ backgroundColor: subject_color[subject] }}>
+                    <h2 className="class-name">{name}</h2>
+                    <p className="teacher-name">{teacherName}</p>
+                </div>   
+            </button>
         </>
     )
 }
