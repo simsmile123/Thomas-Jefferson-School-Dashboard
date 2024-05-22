@@ -47,6 +47,7 @@ export const getClassesList = async () => {
       teachers: doc.data().Teachers,
       name: doc.data().name,
       subject: doc.data().subject,
+      grade: doc.data().grade,
       grade: doc.data().grade
     }));
     return data;
@@ -134,6 +135,7 @@ export const createClass = async (name, students, teachers, subject) => {
       Students: students,
       Teachers: teachers,
       subject: subject,
+      grade: grade,
     });
   } catch (error) {
     console.error(error);
