@@ -7,14 +7,7 @@ import { SideBar } from './SideBar.jsx';
 
 export const Base = () => {
 
-  const [user, setUser] = useState(null)
-  React.useEffect(() => {
-    const auth = getAuth();
-    const unsubcribe = onAuthStateChanged(auth, (user) => {
-      setUser(user)
-    })
-    return () => unsubcribe();
-  }, [])
+  
 
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
