@@ -7,6 +7,10 @@
     margin: 20px 0px 0px 5px;
 }
 
+.card-button-wrapper {
+    border: none;
+}
+
 .classes-group {
     margin-top: 5px;
     border-radius: 15px;
@@ -24,6 +28,7 @@
     padding: 10px;
     width: 200px;
     height: 100px;
+    text-align: left;
 }
 
 @media (orientation: portrait) {

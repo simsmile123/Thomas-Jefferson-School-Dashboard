@@ -3,15 +3,17 @@ import React, { useState, useEffect } from "react";
 import * as dbc from "../../database-controller";
 
 
-export const ClassInfo = ({ }) => {
+export const ClassInfo = ( {classID} ) => {
   const [classInfo, setClassInfo] = useState({});
   const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
-  const classID = "I99sXFrMAw5qPXl3UuVq";
+  //const classID = "I99sXFrMAw5qPXl3UuVq";
+  console.log("1", classID);
 
   const fetchClassInfo = async () => {
     try {
       const classInfoData = await dbc.getClass(classID);
+      console.log("2", classInfoData);
 
       const teacherData = [];
       for (const teacherID of classInfoData.Teachers) {
