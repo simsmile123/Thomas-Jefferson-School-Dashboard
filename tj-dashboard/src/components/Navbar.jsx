@@ -30,6 +30,7 @@ export const Navbar = () => {
   const handleLogout = async() => {
     const auth = getAuth();
     await signOut(auth)
+    alert('Log out successfully')
   }
 
 
