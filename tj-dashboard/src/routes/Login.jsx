@@ -3,7 +3,8 @@ import LoginForm from '../components/LogInForm'
 export const Login = () => {
   return (
     <>
-    <LoginForm />
+        <LoginForm />
+
     </>
   )
 }

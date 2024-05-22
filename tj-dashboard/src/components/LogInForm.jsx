@@ -35,7 +35,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 4, textAlign: 'center' }}>
+    <Box sx={{ width: '100%', maxWidth: 360, height: 425, mx: 'auto', textAlign: 'center' }}>
       <Typography variant="h5" component="h1" gutterBottom>
         Login
       </Typography>
@@ -61,6 +61,9 @@ const LoginForm = () => {
         {error && <Alert severity="error">{error}</Alert>}
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, mb: 2 }}>
           Login
+        </Button>
+        <Button href="/signup" type='submit' variant='contained' color='primary' fullWidth sx={{mt: 2, mb: 2}}>
+        Sign up
         </Button>
       </form>
     </Box>

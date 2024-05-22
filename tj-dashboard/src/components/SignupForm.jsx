@@ -79,7 +79,7 @@ const SignUpForm = () => {
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, mb: 2 }}>
           Sign up
         </Button>
-        <Button href="/login" type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, mb: 2 }}>
+        <Button href="/login" type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 1, mb: 2 }}>
           Log in
         </Button>
       </form>
