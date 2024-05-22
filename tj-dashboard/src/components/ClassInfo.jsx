@@ -1,25 +1,24 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import * as dbc from '../../database-controller';
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export const ClassInfo = () => {
-  const { className } = useParams();
-
+  const [classInfo, setClassInfo] = useState({});
+  const classID = "I99sXFrMAw5qPXl3UuVq"
   useEffect(() => {
-    const fetchTeachers = async () => {
-      const teachersData = await dbc.getClass("I99sXFrMAw5qPXl3UuVq");
-      console.log(teachersData);
+    const fetchClassInfo = async () => {
+      const classInfoData = await dbc.getClass(classID);
+      console.log(classInfoData);
+      setClassInfo(classInfoData);
     };
     fetchTeachers();
   }, []);
 
   return (
     <Box>
-      <h1>Class Detail</h1>
-      <p>Class Name: {className}</p>
-      <h2>Teachers:</h2>
+      <Typography></Typography>
     </Box>
   );
 };
