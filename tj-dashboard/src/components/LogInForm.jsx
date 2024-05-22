@@ -13,6 +13,7 @@ const LoginForm = () => {
     event.preventDefault();
     try {
       await login(email, password);
+      alert('Log in successfully')
       navigate('/');
     } catch (err) {
       switch (err.code) {
