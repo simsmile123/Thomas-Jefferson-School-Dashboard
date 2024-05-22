@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { Navbar } from './Navbar.jsx';
 import { Footer } from './Footer.jsx';
 import { SideBar } from './SideBar.jsx';
+
 export const Base = () => {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
