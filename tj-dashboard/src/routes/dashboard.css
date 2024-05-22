@@ -3,10 +3,27 @@
     font-family: 'Roboto', san-serif;
 }
 
+.classes-group {
+    margin-top: 20px;
+    border-radius: 15px;
+    background-color: lightgray;
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    gap: 20px;
+}
+
 .class-card {
     border-radius: 15px;
     background-color: aliceblue;
     padding: 10px;
     width: 200px;
     height: 100px;
+}
+
+@media (orientation: portrait) {
+    .classes-group {
+        grid-template-columns: 200px 200px;
+    }
 }

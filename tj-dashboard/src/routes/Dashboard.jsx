@@ -21,21 +21,23 @@ export const Dashboard = () => {
       
       {grades.map((grade, i) => {
         return (
-          <div className="classes-group">
-            <h1>{grade}</h1>
-            {classes.map((c) => {
-              if (c.grade == i + 1)
-                return (
-                  <div key={c.id}>
-                    <ClassCard
-                      name={c.name}
-                      teacherID={c.teachers[0]}
-                      subject={c.subject}
-                    />
-                  </div>
-                )
-              }
-            )}
+          <div>
+            <h2 className="grade-title">{grade}</h2>
+            <div className="classes-group">
+              {classes.map((c) => {
+                if (c.grade == i + 1)
+                  return (
+                    <div className="class-item" key={c.id}>
+                      <ClassCard
+                        name={c.name}
+                        teacherID={c.teachers[0]}
+                        subject={c.subject}
+                      />
+                    </div>
+                  )
+                }
+              )}
+            </div>
           </div>
         )
         })
