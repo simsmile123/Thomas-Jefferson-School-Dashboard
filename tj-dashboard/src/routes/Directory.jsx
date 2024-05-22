@@ -7,15 +7,14 @@ export const Directory = () => {
   const [filter2, setFilter2] = useState("grade");
   const [query, setQuery] = useState([]);
   const [user, setUser] = useState("");
-
-  const [userInfo, setUserInfo] = useState([]);
+  const [flag, setFlag] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
-    // TODO: make change to database
     const getQuery = async () => {
       const results = [];
-      console.log("Fetching data for filter1:", filter1); // Log filter1 value
-      // student directory
+      console.log("Fetching data for filter1:", filter1);
+
       if (filter1 === "student") {
         try {
           const allDocs = await getDocs(collection(db, 'student'));
@@ -31,7 +30,8 @@ export const Directory = () => {
         } catch (error) {
           console.error("Error retrieving student documents: ", error);
         }
-      } else if (filter1 === "teacher") {
+      } 
+      else if (filter1 === "teacher") {
         try {
           const allDocs = await getDocs(collection(db, "teacher"));
           allDocs.forEach((doc) => {
@@ -48,6 +48,7 @@ export const Directory = () => {
       }    
       setQuery(results);
     };
+    setFlag(false);
     getQuery();
   }, [filter1]);
 
@@ -55,41 +56,46 @@ export const Directory = () => {
     const { id, value } = e.target;
     if (id === "filter1") {
       setFilter1(value);
-    } else if (id === "filter2") {
+    } 
+    else if (id === "filter2") {
       setFilter2(value);
     }
   };
 
   const handleUser = (e) => {
-    setUser(e.target.value);
+    setUser(e.target.value.trim());
   }
 
-  const handleClick = () => {
+  const handleClick = async (e) => {
+    e.preventDefault();
     const getUserInfo = async () => {
-      // split first and last name
-      const [firstName, lastName] = user.split(" ");
+      // remove white space
+      const [firstName, lastName] = user.split(" ").map(str => str.trim());
+
+      const temp = [];
       if (filter1 === 'student') {
-        // iterate through student collection
         const stuDocs = await getDocs(collection(db, "student"));
         stuDocs.forEach((doc) => {
-          if (doc.data().first_name === firstName && doc.data.last_name === lastName) {
-            setUserInfo(doc.data());
+        const data = doc.data();
+          if (data.first_name === firstName && data.last_name === lastName) {
+            temp.push(data);
           }
-        })
-      }
+        });
+      } 
       else {
-        // iterate through teacher collection
         const teaDocs = await getDocs(collection(db, "teacher"));
         teaDocs.forEach((doc) => {
-          if (doc.data().first_name === firstName && doc.data.last_name === lastName) {
-            setUserInfo(doc.data());
+          const data = doc.data();
+          if (data.first_name === firstName && data.last_name === lastName) {
+            temp.push(data);
           }
-        })
+        });
       }
-    }
-    getUserInfo();
+      setUserInfo(temp[0]);
+    };
+    await getUserInfo();
+    setFlag(true);
   }
-
   return (
     <>
       <div>
@@ -106,27 +112,22 @@ export const Directory = () => {
         </select>
 
         <form id="user-specific">
-        <label>Type in a name (first and last)...</label>
-        <input type="text" onChange={handleUser}/>
-        <button type="submit" onClick={handleClick}>Submit</button>
+          <label>Type in a name (first and last)...</label>
+          <input type="text" onChange={handleUser}/>
+          <button type="submit" onClick={handleClick}>Submit</button>
         </form>
-
       </div>
-
+      
       <div>
-        <p>{user}</p>
-      </div>
-
-      <div>
-        <ul>
+        
           {query.length === 0 ? (
             <p>Loading...</p>
-          ) : (
-            // add another if that checks if user=""
+          ) : flag === false ? (
             query.map((item, index) => (
               <li key={index}>
                 {item.first_name} {item.last_name}
                 <div>
+                  <ol>
                   {filter2 === "grade" ? (
                     Array.isArray(item.grade) ? (
                       item.grade.map((gradeItem, gradeIndex) => (
@@ -148,15 +149,48 @@ export const Directory = () => {
                       <p> {item.class}</p>
                     )
                   )}
+                  </ol>
                 </div>
               </li>
-            ))            
-            )
-          }
-        </ul>
+            )) 
+          ) : ( 
+            // specific user query
+            <div>
+              <p>{userInfo.first_name} {userInfo.last_name}</p>
+              <div>
+                <ol>
+                {filter2 === "grade" ? (
+                  Array.isArray(userInfo.year_taught) ? (
+                    userInfo.year_taught.map((gradeItem, gradeIndex) => (
+                      <li key={gradeIndex}>
+                        <p>{gradeItem}</p>  
+                      </li>
+                    ))
+                  ) : (
+                    <li>
+                      {filter1 === "student" ? (
+                        <p>{userInfo.year}</p>
+                      ) : (
+                        <p>{userInfo.year_taught}</p>
+                      )}
+                    </li>
+                  )
+                ) : (
+                  Array.isArray(userInfo.classes) ? (
+                    userInfo.classes.map((classItem, classIndex) => (
+                      <li key={classIndex}>
+                        <p>{classItem}</p>  
+                      </li>
+                    ))
+                  ) : (
+                    <p> {userInfo.classes}</p>
+                  )
+                )}
+                </ol>
+              </div>
+            </div>
+          )}
       </div>
-
-
     </>
   );
 };
