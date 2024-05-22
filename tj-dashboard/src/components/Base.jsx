@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { Navbar } from './Navbar.jsx';
 import { Footer } from './Footer.jsx';
 import { SideBar } from './SideBar.jsx';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 export const Base = () => {
 
   const [user, setUser] = useState(null)

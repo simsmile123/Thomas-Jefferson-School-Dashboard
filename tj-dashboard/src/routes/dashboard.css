@@ -1,0 +1,33 @@
+#main-container {
+    margin: 50px auto 20px auto;
+    font-family: 'Roboto', san-serif;
+}
+
+.grade-title {
+    margin: 20px 0px 0px 5px;
+}
+
+.classes-group {
+    margin-top: 5px;
+    border-radius: 15px;
+    background-color: #f2f2f2;
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    gap: 20px;
+}
+
+.class-card {
+    border-radius: 15px;
+    background-color: aliceblue;
+    padding: 10px;
+    width: 200px;
+    height: 100px;
+}
+
+@media (orientation: portrait) {
+    .classes-group {
+        grid-template-columns: 200px 200px;
+    }
+}
