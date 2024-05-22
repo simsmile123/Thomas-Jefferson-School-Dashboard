@@ -3,10 +3,14 @@
     font-family: 'Roboto', san-serif;
 }
 
+.grade-title {
+    margin: 20px 0px 0px 5px;
+}
+
 .classes-group {
-    margin-top: 20px;
+    margin-top: 5px;
     border-radius: 15px;
-    background-color: lightgray;
+    background-color: #f2f2f2;
     padding: 20px;
 
     display: grid;
