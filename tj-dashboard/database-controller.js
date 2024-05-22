@@ -32,10 +32,10 @@ export const getStudentsList = async () => {
       lastname: doc.data().last_name,
       year: doc.data().year,
     }));
+    return data;
   } catch (error) {
     console.error(error);
   }
-  return data;
 };
 
 export const getClassesList = async () => {
@@ -142,3 +142,33 @@ export const createClass = async (name, students, teachers, subject) => {
   }
 }
 
+export const updateStudentGrade = async (classID, studentID, grade) => {
+  try {
+    const classDocRef = doc(db, "class", classID);
+    await updateDoc(classDocRef, {
+      [`Students.${studentID}`]: grade,
+    });
+  } catch (error) {
+    console.error("Error updating student grade:", error);
+  }
+};
+
+export const addStudentToClass = async (classID, studentID) => {
+  try {
+    const classDocRef = doc(db, "class", classID);
+    await updateDoc(classDocRef, {
+      [`Students.${studentID}`]: null,
+    });
+  } catch (error) {
+    console.error("Error adding student:", error);
+  }
+}
+
+// export const removeStudentFromClass = async (classID, studentID) => {
+//   try {
+//     const classDocRef = doc(db, "class", classID);
+//     await updateDoc(classDocRef, delete );
+//   } catch (error) {
+//     console.error("Error adding student:", error);
+//   }
+// }
