@@ -1,0 +1,25 @@
+/* Directory.css */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 35px;
+    margin-bottom: 250px;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .select {
+    margin-bottom: 20px;
+  }
+  
+
+
+  

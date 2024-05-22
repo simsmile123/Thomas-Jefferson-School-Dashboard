@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
-
+import './Directory.css';
 export const Directory = () => {
   const [filter1, setFilter1] = useState("teacher");
   const [filter2, setFilter2] = useState("grade");
