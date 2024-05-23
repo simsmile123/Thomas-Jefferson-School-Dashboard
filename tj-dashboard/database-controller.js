@@ -216,13 +216,18 @@ export const removeTeacherFromClass = async (classID, teacherID) => {
 export const removeTeacher = async (firstName, lastName) => {
   try {
     let id = "";
-    const teacherDocs = await getDocs(collection(db, "teacher")); // Await the result of getDocs
-    teacherDocs.forEach((doc) => {
+    const teacherDocs = await getDocs(collection(db, "teacher"));
+    teacherDocs.forEach((doc)=> {
       if (doc.data().first_name === firstName && doc.data().last_name === lastName) {
         id = doc.id;
       }
     });
-    await deleteDoc(doc(db, 'teacher', id)); // Await the deletion operation
+    // Check if id is not empty before attempting to delete the document
+    if (id) {
+      await deleteDoc(doc(db, 'teacher', id));
+    } else {
+      console.error("Document ID not found for teacher:", firstName, lastName);
+    }
   } catch (error) {
     console.error("Error removing teacher:", error);
   }
