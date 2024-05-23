@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ClassCard from '../components/ClassCard';
-import { getClassesList, getTeacher } from '../../database-controller';
+import { getClassesList } from '../../database-controller';
 import { ClassInfo } from '../components/ClassInfo';
 
 export const Dashboard = () => {
@@ -19,7 +19,7 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <div id="main-container">
+    <div className="page-container">
       <h1 id="dashboard-header">Dashboard</h1>
       {selectedID != "" && 
         <ClassInfo classID={selectedID} />
