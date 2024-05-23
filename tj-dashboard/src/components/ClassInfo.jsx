@@ -18,8 +18,7 @@ import {
 import React, { useState, useEffect } from "react";
 import * as dbc from "../../database-controller";
 
-
-export const ClassInfo = ( {classID} ) => {
+export const ClassInfo = ({ classID }) => {
   const [classInfo, setClassInfo] = useState({});
   const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
@@ -52,10 +51,10 @@ export const ClassInfo = ( {classID} ) => {
 
       const fetchAllTeacherList = await dbc.getTeachersList();
       const filteredTeacherList = fetchAllTeacherList.filter(
-        (teacher1) =>!teacherData.some((teacher2) => teacher2.id === teacher1.id)
+        (teacher1) =>
+          !teacherData.some((teacher2) => teacher2.id === teacher1.id)
       );
       setAllTeacherList(filteredTeacherList);
-
 
       studentData.sort((a, b) => a.last_name.localeCompare(b.last_name));
 
@@ -74,13 +73,9 @@ export const ClassInfo = ( {classID} ) => {
     }
   };
 
-
-
-
   useEffect(() => {
     fetchClassInfo();
   }, []);
-
 
   const handleGradeChange = async (studentID, newGrade) => {
     try {
@@ -148,21 +143,22 @@ export const ClassInfo = ( {classID} ) => {
   };
 
   return (
-    <div className = "class-info-container">
-      <h1 style={{marginBottom: "5px"}}>{classInfo.name}</h1>
-      <h2 style={{fontWeight: "normal"}}>Grade {classInfo.grade}</h2>
-      <div style={{display: "flex"}}>  
+    <div className="class-info-container">
+      <h1 style={{ marginBottom: "5px" }}>{classInfo.name}</h1>
+      <h2 style={{ fontWeight: "normal" }}>Grade {classInfo.grade}</h2>
+      <div style={{ display: "flex" }}>
         <Typography variant="h5">Teachers:</Typography>
         {teachers.map((teacher, index) => (
           <div className="teacher-name-info">
             <Typography key={index} variant="h6">
-              {teacher.last_name.toUpperCase()}, {teacher.first_name.toUpperCase()}
+              {teacher.last_name.toUpperCase()},{" "}
+              {teacher.first_name.toUpperCase()}
             </Typography>
           </div>
-        ))}  
+        ))}
       </div>
 
-      <div className = "add-remove-buttons">
+      <div className="add-remove-buttons">
         <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
           <Button
             variant="contained"
@@ -186,7 +182,7 @@ export const ClassInfo = ( {classID} ) => {
         Average Grade: {calculateAverageGrade(students)}
       </Typography>
 
-      <div className = "add-remove-buttons">
+      <div className="add-remove-buttons">
         <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
           <Button
             variant="contained"
@@ -238,11 +234,11 @@ export const ClassInfo = ( {classID} ) => {
       </TableContainer>
 
       <DialogBox
-        peopleList={allStudentList}
-        dialogOpen={dialogAddStudent}
-        setDialogOpen={setDialogAddStudent}
-        handleAction={handleAddStudent}
-        subject="Student"
+        peopleList={allTeacherList}
+        dialogOpen={dialogAddTeacher}
+        setDialogOpen={setDialogAddTeacher}
+        handleAction={handleAddTeacher}
+        subject="Teacher"
         action="Add"
       />
 
@@ -254,10 +250,27 @@ export const ClassInfo = ( {classID} ) => {
         subject="Teacher"
         action="Remove"
       />
+
+      <DialogBox
+        peopleList={allStudentList}
+        dialogOpen={dialogAddStudent}
+        setDialogOpen={setDialogAddStudent}
+        handleAction={handleAddStudent}
+        subject="Student"
+        action="Add"
+      />
+
+      <DialogBox
+        peopleList={students}
+        dialogOpen={dialogRemoveStudent}
+        setDialogOpen={setDialogRemoveStudent}
+        handleAction={handleRemoveStudent}
+        subject="Student"
+        action="Remove"
+      />
     </div>
   );
 };
-
 
 const calculateAverageGrade = (students) => {
   const gradedStudents = students.filter((student) => student.grade !== null);
@@ -268,13 +281,16 @@ const calculateAverageGrade = (students) => {
   ).toFixed(2);
 };
 
-
-const DialogBox = ({ peopleList, dialogOpen, setDialogOpen, handleAction, subject, action }) => {
+const DialogBox = ({
+  peopleList,
+  dialogOpen,
+  setDialogOpen,
+  handleAction,
+  subject,
+  action,
+}) => {
   return (
-    <Dialog
-      open={dialogOpen}
-      onClose={() => setDialogOpen(false)}
-    >
+    <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
       <DialogTitle>{`${action} ${subject}`}</DialogTitle>
       <DialogContent>
         <TableContainer component={Paper}>
