@@ -176,114 +176,11 @@ export const ClassInfo = ( {classID} ) => {
           Remove Teacher
         </Button>
       </Box>
-
-      <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setDialogAddTeacher(true)}
-        >
-          Add Teacher
-        </Button>
-
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setDialogRemoveTeacher(true)}
-        >
-          Remove Teacher
-        </Button>
-      </Box>
-
+      
       <Typography variant="h4">
-        Average Grade: {calculateAverageGrade(students)}
         Average Grade: {calculateAverageGrade(students)}
       </Typography>
 
-      <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setDialogAddStudent(true)}
-        >
-          Add Student
-        </Button>
-
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setDialogRemoveStudent(true)}
-        >
-          Remove Student
-        </Button>
-      </Box>
-
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Student Name</TableCell>
-              <TableCell align="right">Grade</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {students.map((student) => (
-              <TableRow key={student.id}>
-                <TableCell>{`${student.last_name}, ${student.first_name} `}</TableCell>
-                <TableCell align="right">
-                  <TextField
-                    type="number"
-                    value={student.grade !== null ? student.grade : ""}
-                    placeholder={student.grade === null ? "N/A" : ""}
-                    onChange={(e) =>
-                      handleGradeChange(
-                        student.id,
-                        parseFloat(e.target.value) || null
-                      )
-                    }
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <DialogBox
-        peopleList={allStudentList}
-        dialogOpen={dialogAddStudent}
-        setDialogOpen={setDialogAddStudent}
-        handleAction={handleAddStudent}
-        subject="Student"
-        action="Add"
-      />
-
-      <DialogBox
-        peopleList={students}
-        dialogOpen={dialogRemoveStudent}
-        setDialogOpen={setDialogRemoveStudent}
-        handleAction={handleRemoveStudent}
-        subject="Student"
-        action="Remove"
-      />
-
-      <DialogBox
-        peopleList={allTeacherList}
-        dialogOpen={dialogAddTeacher}
-        setDialogOpen={setDialogAddTeacher}
-        handleAction={handleAddTeacher}
-        subject="Teacher"
-        action="Add"
-      />
-
-      <DialogBox
-        peopleList={teachers}
-        dialogOpen={dialogRemoveTeacher}
-        setDialogOpen={setDialogRemoveTeacher}
-        handleAction={handleRemoveTeacher}
-        subject="Teacher"
-        action="Remove"
-      />
       <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
         <Button
           variant="contained"
