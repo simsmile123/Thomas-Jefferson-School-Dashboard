@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import './Directory.css';
+import { createStudent, createTeacher, removeTeacher, removeStudent } from "../../database-controller";
+
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import { Button } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import LinearProgress from '@mui/material/LinearProgress';
+
 export const Directory = () => {
   const [filter1, setFilter1] = useState("teacher");
   const [filter2, setFilter2] = useState("grade");
   const [query, setQuery] = useState([]);
   const [user, setUser] = useState("");
   const [flag, setFlag] = useState(false);
+
   const [userInfo, setUserInfo] = useState({});
+
+  const [firstChange, setFirstChange] = useState("");
+  const [lastChange, setLastChange] = useState("");
 
   useEffect(() => {
     const getQuery = async () => {
@@ -52,18 +67,30 @@ export const Directory = () => {
     getQuery();
   }, [filter1]);
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    if (id === "filter1") {
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    if (name === "role") {
       setFilter1(value);
-    } 
-    else if (id === "filter2") {
+    } else if (name === "attribute") {
       setFilter2(value);
     }
   };
+  
 
   const handleUser = (e) => {
     setUser(e.target.value.trim());
+  }
+
+  const handleChangeUser = (e) => {
+    if (e.target.id === "first") {
+      setFirstChange(e.target.value);
+    }
+    else {
+      setLastChange(e.target.value);
+    }
+    console.log(firstChange);
+    console.log(lastChange);
   }
 
   const handleClick = async (e) => {
@@ -96,101 +123,242 @@ export const Directory = () => {
     await getUserInfo();
     setFlag(true);
   }
+
+
+  const handleAddDelete = async (e) => {
+    e.preventDefault();
+    const id = e.target.id;
+
+    if (id === "add") {
+      if (filter1 === "student") {
+        createStudent(firstChange, lastChange, null);
+      }
+      else {
+        createTeacher(firstChange, lastChange, null);
+      }
+    }
+    else if (id === "delete") {
+      if (filter1 === "student") {
+        removeStudent(firstChange, lastChange);
+      }
+      else {
+        removeTeacher(firstChange, lastChange);
+      }
+    }
+  }
+
+
   return (
     <>
+    <Box sx={{ marginTop: '-300px' }}>
       <div>
-        <h1>Search the Directory</h1>
-        <label>Filter by: </label>
-        <select id="filter1" onChange={handleChange}>
-          <option value="teacher">Teacher</option>
-          <option value="student">Student</option>
-        </select>
+        <h1>Search the Directory</h1> <br></br>
+        <label style={{ fontSize: '18px' }}>Filter by: </label> <br></br><br></br>
+        {/* Filter selection */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ width: 150}}>
+            <FormControl fullWidth>
+              <InputLabel>Roles</InputLabel>
+              <Select
+                name="role"
+                defaultValue="teacher"
+                onChange={handleChange}
+              >
+                <MenuItem value="teacher">Teacher</MenuItem>
+                <MenuItem value="student">Student</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
 
-        <select id="filter2" onChange={handleChange}>
-          <option value="grade">Grade</option>
-          <option value="class">Class</option>
-        </select>
-
-        <form id="user-specific">
-          <label>Type in a name (first and last)...</label>
-          <input type="text" onChange={handleUser}/>
-          <button type="submit" onClick={handleClick}>Submit</button>
-        </form>
+          <Box sx={{ width: 150 }}>
+            <FormControl fullWidth>
+              <InputLabel>Attributes</InputLabel>
+              <Select
+                name="attribute"
+                defaultValue="grade"
+                onChange={handleChange}
+              >
+                <MenuItem value="grade">Grade</MenuItem>
+                <MenuItem value="class">Class</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
+        {/* User query submit */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box           
+            sx={{
+              '& > :not(style)': { m: 1, width: '40ch' },
+            }}>
+            <TextField onChange={handleUser}
+            label="Type in a name (first and last)..."
+            variant="standard"
+          />
+          </Box>
+          <Button sx={{ width: 100, height: 40, marginTop: '18px'}}
+          variant="contained" endIcon={<SendIcon />} type="submit" onClick={handleClick}>Search</Button>
+          
+        </Box>
       </div>
       
       <div>
-        
-          {query.length === 0 ? (
-            <p>Loading...</p>
-          ) : flag === false ? (
-            query.map((item, index) => (
-              <li key={index}>
-                {item.first_name} {item.last_name}
+        {query.length === 0 ? (
+          <Box sx={{ width: '100%' }}>
+            <LinearProgress />
+          </Box>
+        ) : flag === false ? (
+          <Box sx={{ display: 'block', gap: 2 }}>
+            {query.map((item, index) => (
+              <Box sx={{ display: 'flex', gap: 10, border: '1px solid grey', bgcolor: '#f0f0f0', marginBottom: 1.5, justifyContent: 'space-between'}}>
                 <div>
-                  <ol>
-                  {filter2 === "grade" ? (
-                    Array.isArray(item.grade) ? (
-                      item.grade.map((gradeItem, gradeIndex) => (
-                        <li key={gradeIndex}>
-                          <p>{gradeItem}</p>  
-                        </li>
-                      ))
-                    ) : (
-                      <p> {item.grade}</p>
-                    )
-                  ) : (
-                    Array.isArray(item.class) ? (
-                      item.class.map((classItem, classIndex) => (
-                        <li key={classIndex}>
-                          <p>{classItem}</p>  
-                        </li>
-                      ))
-                    ) : (
-                      <p> {item.class}</p>
-                    )
-                  )}
-                  </ol>
+                  <p>{item.first_name} {item.last_name}</p>
                 </div>
-              </li>
-            )) 
-          ) : ( 
-            // specific user query
-            <div>
+                <div>
+                <Box key={index} sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end'}}>
+                    {filter2 === "grade" ? (
+                      Array.isArray(item.grade) ? (
+                        item.grade.map((gradeItem, gradeIndex) => (
+                          <Box>
+                          <p key={gradeIndex}>{gradeItem}</p>
+                          </Box>
+                        ))
+                      ) : (
+                          <p>{item.grade}</p>
+                      )
+                    ) : (
+                      Array.isArray(item.class) ? (
+                        item.class.map((classItem, classIndex) => (
+                          <p key={classIndex}>{classItem}</p> 
+                        ))
+                      ) : (
+                          <p>{item.class}</p>
+                      )
+                    )}
+                    </Box>
+                </div>
+              </Box>
+            ))}
+          </Box>
+        ) : (
+          // specific user query
+        <Box sx={{ display: 'block', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 10, border: '1px solid grey', bgcolor: '#f0f0f0', marginBottom: 1.5, justifyContent: 'space-between'}}>
               <p>{userInfo.first_name} {userInfo.last_name}</p>
               <div>
-                <ol>
-                {filter2 === "grade" ? (
-                  Array.isArray(userInfo.year_taught) ? (
-                    userInfo.year_taught.map((gradeItem, gradeIndex) => (
-                      <li key={gradeIndex}>
-                        <p>{gradeItem}</p>  
-                      </li>
-                    ))
-                  ) : (
-                    <li>
-                      {filter1 === "student" ? (
+                <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end'}}>
+                  {filter2 === "grade" ? (
+                    Array.isArray(userInfo.year_taught) ? (
+                      userInfo.year_taught.map((gradeItem, gradeIndex) => (
+                        <Box key={gradeIndex}>
+                          <p>{gradeItem}</p>
+                        </Box>
+                      ))
+                    ) : (
+                      filter1 === "student" ? (
                         <p>{userInfo.year}</p>
                       ) : (
                         <p>{userInfo.year_taught}</p>
-                      )}
-                    </li>
-                  )
-                ) : (
-                  Array.isArray(userInfo.classes) ? (
-                    userInfo.classes.map((classItem, classIndex) => (
-                      <li key={classIndex}>
-                        <p>{classItem}</p>  
-                      </li>
-                    ))
+                      )
+                    )
                   ) : (
-                    <p> {userInfo.classes}</p>
-                  )
-                )}
-                </ol>
+                    Array.isArray(userInfo.classes) ? (
+                      userInfo.classes.map((classItem, classIndex) => (
+                        <p key={classIndex}>{classItem}</p>
+                      ))
+                    ) : (
+                      <p>{userInfo.classes}</p>
+                    )
+                  )}
+                </Box>
               </div>
-            </div>
-          )}
+            </Box>
+        </Box>
+        )}
       </div>
+      </Box>
+
+      {filter1 === "student" ? (
+        <Box sx={{ display: 'flex', gap: 2}}> 
+          <Box
+          sx={{
+            '& > :not(style)': { m: 1, width: '20ch' },
+          }}>
+          <FormControl fullWidth>
+          <TextField onChange={handleChangeUser}
+            id="first"
+            label="Enter first name"
+            variant="standard"
+          />
+          <TextField onChange={handleChangeUser}
+            id="last"
+            label="Enter last name"
+            variant="standard"
+          />
+          <Button id="add" onClick={handleAddDelete}>Add Student</Button>
+          </FormControl>
+          </Box>
+        
+          <Box
+          sx={{
+            '& > :not(style)': { m: 1, width: '20ch' },
+          }}>
+          <FormControl fullWidth>
+          <TextField onChange={handleChangeUser}
+            id="first"
+            label="Enter first name"
+            variant="standard"
+          />
+          <TextField onChange={handleChangeUser}
+          id="last"
+            label="Enter last name"
+            variant="standard"
+          />
+          <Button id="delete" onClick={handleAddDelete}>Remove Student</Button>
+          </FormControl>
+          </Box>
+        </Box>
+      ) : (
+        <div>
+        <Box sx={{ display: 'flex', gap: 2}}> 
+          <Box
+          sx={{
+            '& > :not(style)': { m: 1, width: '20ch' },
+          }}>
+          <FormControl fullWidth>
+          <TextField onChange={handleChangeUser}
+          id="first"
+            label="Enter first name"
+            variant="standard"
+          />
+          <TextField onChange={handleChangeUser}
+          id="last"
+            label="Enter last name"
+            variant="standard"
+          />
+          <Button id="add" onClick={handleAddDelete}>Add Teacher</Button>
+          </FormControl>
+          </Box>
+        
+          <Box
+          sx={{
+            '& > :not(style)': { m: 1, width: '20ch' },
+          }}>
+          <FormControl fullWidth>
+          <TextField onChange={handleChangeUser}
+            label="Enter first name"
+            variant="standard"
+          />
+          <TextField onChange={handleChangeUser}
+            label="Enter last name"
+            variant="standard"
+          />
+          <Button id="delete" onClick={handleAddDelete}>Remove Teacher</Button>
+          </FormControl>
+          </Box>
+        </Box>
+        </div>
+      )}
+
     </>
   );
 };
