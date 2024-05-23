@@ -150,7 +150,7 @@ export const Directory = () => {
 
   return (
     <>
-    <Box sx={{ marginTop: '-300px' }}>
+    <Box sx={{ marginTop: '-5px' }}>
       <div>
         <h1>Search the Directory</h1> <br></br>
         <label style={{ fontSize: '18px' }}>Filter by: </label> <br></br><br></br>
