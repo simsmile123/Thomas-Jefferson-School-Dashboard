@@ -38,3 +38,21 @@
         grid-template-columns: 200px 200px;
     }
 }
+
+.class-info-container {
+    border-radius: 15px;
+    background-color: whitesmoke;
+    padding: 20px;
+}
+
+.add-remove-buttons {
+    margin: 15px 0px 20px 0px;
+}
+
+.teacher-name-info {
+    margin: -2px 0px 0px 15px;
+    background-color: lightblue;
+    padding: 2px 10px 1px 10px;
+    border-radius: 20px;
+    border: 1px solid navy;
+}
