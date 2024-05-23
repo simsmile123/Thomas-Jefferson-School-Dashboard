@@ -6,6 +6,11 @@
 
 .card-button-wrapper {
     border: none;
+    transition: 0.2s;
+}
+
+.card-button-wrapper:hover {
+    transform: scale(1.03);
 }
 
 .classes-group {
