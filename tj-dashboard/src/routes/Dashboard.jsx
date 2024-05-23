@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import ClassCard from '../components/ClassCard';
-import { getClassesList, getTeacher } from '../../database-controller';
+import { getClassesList } from '../../database-controller';
 import { ClassInfo } from '../components/ClassInfo';
-
+import { Button } from "@mui/material";
 export const Dashboard = () => {
   const grades = ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5"];
   const [selectedID, setSelectedID] = useState("");
@@ -19,8 +19,9 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <div id="main-container">
+    <div className="page-container">
       <h1 id="dashboard-header">Dashboard</h1>
+      {selectedID != "" && <Button onClick={() => setSelectedID("")} variant="contained" color="primary" sx={{ my: 2 }}>Back</Button>}
       {selectedID != "" && 
         <ClassInfo classID={selectedID} />
       }

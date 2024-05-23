@@ -1,7 +1,4 @@
-#main-container {
-    margin: 50px auto 20px auto;
-    font-family: 'Roboto', san-serif;
-}
+
 
 .grade-title {
     margin: 20px 0px 0px 5px;
@@ -9,6 +6,11 @@
 
 .card-button-wrapper {
     border: none;
+    transition: 0.2s;
+}
+
+.card-button-wrapper:hover {
+    transform: scale(1.03);
 }
 
 .classes-group {
@@ -18,7 +20,7 @@
     padding: 20px;
 
     display: grid;
-    grid-template-columns: 200px 200px 200px;
+    grid-template-columns: 200px 200px 200px 200px;
     gap: 20px;
 }
 
@@ -35,4 +37,22 @@
     .classes-group {
         grid-template-columns: 200px 200px;
     }
+}
+
+.class-info-container {
+    border-radius: 15px;
+    background-color: whitesmoke;
+    padding: 20px;
+}
+
+.add-remove-buttons {
+    margin: 15px 0px 20px 0px;
+}
+
+.teacher-name-info {
+    margin: -2px 0px 0px 15px;
+    background-color: lightblue;
+    padding: 2px 10px 1px 10px;
+    border-radius: 20px;
+    border: 1px solid navy;
 }
