@@ -30,7 +30,6 @@ export const ClassInfo = ( {classID} ) => {
   const [dialogAddTeacher, setDialogAddTeacher] = useState(false);
   const [dialogRemoveTeacher, setDialogRemoveTeacher] = useState(false);
 
-
   const fetchClassInfo = async () => {
     try {
       const classInfoData = await dbc.getClass(classID);
@@ -51,6 +50,12 @@ export const ClassInfo = ( {classID} ) => {
         });
       }
 
+      const fetchAllTeacherList = await dbc.getTeachersList();
+      const filteredTeacherList = fetchAllTeacherList.filter(
+        (teacher1) =>!teacherData.some((teacher2) => teacher2.id === teacher1.id)
+      );
+      setAllTeacherList(filteredTeacherList);
+
 
       studentData.sort((a, b) => a.last_name.localeCompare(b.last_name));
 
@@ -61,12 +66,6 @@ export const ClassInfo = ( {classID} ) => {
       );
       setAllStudentList(filteredStudentList);
 
-      const fetchAllTeacherList = await dbc.getTeachersList();
-      const filteredTeacherList = fetchAllTeacherList.filter(
-        (teacher1) =>!teacherData.some((teacher2) => teacher2.id === teacher1.id)
-      );
-      setAllTeacherList(filteredTeacherList);
-
       setClassInfo(classInfoData);
       setTeachers(teacherData);
       setStudents(studentData);
@@ -74,6 +73,8 @@ export const ClassInfo = ( {classID} ) => {
       console.error("Error fetching class info or teachers:", error);
     }
   };
+
+
 
 
   useEffect(() => {
@@ -146,58 +147,64 @@ export const ClassInfo = ( {classID} ) => {
     }
   };
 
-
   return (
-    <Box>
-      <Typography variant="h2">{classInfo.name}</Typography>
-      <Typography variant="h4">Grade: {classInfo.grade}</Typography>
+    <div className = "class-info-container">
+      <h1 style={{marginBottom: "5px"}}>{classInfo.name}</h1>
+      <h2 style={{fontWeight: "normal"}}>Grade {classInfo.grade}</h2>
+      <div style={{display: "flex"}}>  
+        <Typography variant="h5">Teachers:</Typography>
+        {teachers.map((teacher, index) => (
+          <div className="teacher-name-info">
+            <Typography key={index} variant="h6">
+              {teacher.last_name.toUpperCase()}, {teacher.first_name.toUpperCase()}
+            </Typography>
+          </div>
+        ))}  
+      </div>
 
-      <Typography variant="h4">Teachers:</Typography>
-      {teachers.map((teacher, index) => (
-        <Typography key={index} variant="h6">
-          {teacher.last_name}, {teacher.first_name}
-        </Typography>
-      ))}
+      <div className = "add-remove-buttons">
+        <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setDialogAddTeacher(true)}
+          >
+            Add Teacher
+          </Button>
 
-      <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setDialogAddTeacher(true)}
-        >
-          Add Teacher
-        </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setDialogRemoveTeacher(true)}
+          >
+            Remove Teacher
+          </Button>
+        </Box>
+      </div>
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setDialogRemoveTeacher(true)}
-        >
-          Remove Teacher
-        </Button>
-      </Box>
-      
-      <Typography variant="h4">
+      <Typography variant="h5">
         Average Grade: {calculateAverageGrade(students)}
       </Typography>
 
-      <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setDialogAddStudent(true)}
-        >
-          Add Student
-        </Button>
+      <div className = "add-remove-buttons">
+        <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setDialogAddStudent(true)}
+          >
+            Add Student
+          </Button>
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setDialogRemoveStudent(true)}
-        >
-          Remove Student
-        </Button>
-      </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setDialogRemoveStudent(true)}
+          >
+            Remove Student
+          </Button>
+        </Box>
+      </div>
 
       <TableContainer component={Paper}>
         <Table>
@@ -240,24 +247,6 @@ export const ClassInfo = ( {classID} ) => {
       />
 
       <DialogBox
-        peopleList={students}
-        dialogOpen={dialogRemoveStudent}
-        setDialogOpen={setDialogRemoveStudent}
-        handleAction={handleRemoveStudent}
-        subject="Student"
-        action="Remove"
-      />
-
-      <DialogBox
-        peopleList={allTeacherList}
-        dialogOpen={dialogAddTeacher}
-        setDialogOpen={setDialogAddTeacher}
-        handleAction={handleAddTeacher}
-        subject="Teacher"
-        action="Add"
-      />
-
-      <DialogBox
         peopleList={teachers}
         dialogOpen={dialogRemoveTeacher}
         setDialogOpen={setDialogRemoveTeacher}
@@ -265,7 +254,7 @@ export const ClassInfo = ( {classID} ) => {
         subject="Teacher"
         action="Remove"
       />
-    </Box>
+    </div>
   );
 };
 
