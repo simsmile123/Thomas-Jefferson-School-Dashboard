@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import Button from '@mui/material/Button';
+import calendarExample from "../assets/calendar-example.png";
 
 const clientId = import.meta.env.VITE_CLIENT_ID;
 
@@ -42,7 +43,7 @@ export function Calendar() {
     <div className="Calendar">
       <div id="signInDiv"></div>
       {
-        Object.keys(user).length !== 0 &&
+        Object.keys(user).length !== 0 ? (
         <div>
           <Button variant="contained" color="primary" onClick={handleSignOut}>
             Sign Out
@@ -51,19 +52,25 @@ export function Calendar() {
             Create Event?
           </Button> */}
           <div>
-            <img src={user.picture} alt="User profile"></img>
-            <h3>{user.name}</h3>
+            {/* <img src={user.picture} alt="User profile"></img> */}
+            {/* <h3>{user.name}</h3> */}
           </div>
           <iframe
             src={`https://calendar.google.com/calendar/embed?src=${user.email}&ctz=America/Los_Angeles`}
             style={{ border: 0 }}
-            width="800"
-            height="600"
+            width="900"
+            height="500"
             frameBorder="0"
             scrolling="no"
             title="Google Calendar"
           ></iframe>
         </div>
+        ) : (
+          <div>
+            <h3> Sign In for Access, Current Calendar Events:</h3>
+            <img src={calendarExample} alt="Calendar example" width = '100%' ></img>
+          </div>
+        )
       }
     </div>
   );
