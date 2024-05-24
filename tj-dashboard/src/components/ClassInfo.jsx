@@ -36,7 +36,7 @@ export const ClassInfo = ({ classID }) => {
       const teacherData = [];
       for (const teacherID of classInfoData.Teachers) {
         const teacher = await dbc.getTeacher(teacherID);
-        teacherData.push(teacher);
+        teacherData.push({...teacher, id: teacherID});
       }
 
       const studentData = [];

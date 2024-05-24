@@ -28,7 +28,7 @@ export const Dashboard = () => {
 
       {selectedID == "" && grades.map((grade, i) => {
         return (
-          <div>
+          <div key={i}>
             <h2 className="grade-title">{grade}</h2>
             <div className="classes-group">
               {classes.map((c) => {
