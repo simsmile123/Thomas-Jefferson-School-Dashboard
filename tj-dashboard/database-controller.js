@@ -207,7 +207,7 @@ export const removeTeacherFromClass = async (classID, teacherID) => {
       Teachers: updatedTeacherData,
     });
 
-    console.log(`Teacher with ID ${studentID} has been removed from class ${classID}`);
+    console.log(`Teacher with ID ${teacherID} has been removed from class ${classID}`);
   } catch (error) {
     console.error("Error removing teacher:", error);
   }
